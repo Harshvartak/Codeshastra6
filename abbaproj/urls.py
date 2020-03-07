@@ -15,7 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from misc.views import *
+from account.views import (
+    logout_view,
+    login_view,
+)
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('',home, name='home'),
+    path('logout/', logout_view, name="logout"),
+    path('login/', login_view, name="login"),
+    path('create/',create, name="create"),
+    path('diary',diary_all,name="diary_all"),
+    path('diary/<int:product_id>',detail,name='detail'),
+    path('therapist/',include(misc.urls))
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

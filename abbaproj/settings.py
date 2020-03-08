@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     #my apps
     'account',
     'misc',
-    'main',
 ]
 
 

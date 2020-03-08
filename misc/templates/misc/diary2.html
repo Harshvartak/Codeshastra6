@@ -1,103 +1,80 @@
+<!doctype html>
 <html lang="en">
-
-  <head>
-    {% load static %}
+{% load static %}
+<head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v3.8.5">
-    <title> Psych</title>
-     <link rel = "icon" href ="{% static 'logo.png' %}"
-        type = "logo/x-icon">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
 
-
-    <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-<link href="{% static 'open-iconic/font/css/open-iconic-bootstrap.css' %}" rel='stylesheet'>
-
+    <title>Therapist reply</title>
     <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
+        body {
+            background-image: url("{% static 'therapy.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
         }
-      }
     </style>
-    <!-- Custom styles for this template -->
-    <link href="album.css" rel="stylesheet">
-  </head>
-  <body>
-    <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  	<div class="container">
-    <a class="navbar-brand" href="{% url 'home2' %}">
-    <img src="{% static 'logo.png' %}" height=28 width=28 class="d-inline-block align-top" />
-    Psych
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ml-auto">
-        {% if user.is_authenticated %}
-        <a class="nav-item nav-link" href="{% url 'diary_all2' %}" >Diary</a>
-        <a class="nav-item nav-link" href="javascript:{document.getElementById('logout').submit()}">LogOut</a>
-        <form id="logout" method="POST" action="{% url 'logout' %}">
 
-        <a class='navbar-brand' >{{request.user.username}}</a>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-info navbar-dark">
+        <ul class="navbar-nav">
+		{% if user.is_authenticated %}
+            <li class="nav-item active">
+                <a class="nav-link" href="">Diary Detail</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home2' %}">Home</a>
+            </li>
+            <li class="nav-item pull-left">
+                <a class="nav-link" href="{% url 'quiz' %}">Quiz</a>
+            </li>
+            <li class="nav-item pull-left">
+                <a class="nav-link" href="{% url 'diary_all2' %}">Diary</a>
+            </li>
+			<li class="nav-item pull-left">
+                <a class="nav-link" >{{request.user.username}}</a>
+            </li>
+            <li class="nav-item pull-left">
+                      <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">LogOut</a>
+                      <form id="logout" method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <input type="hidden" name="" />
 
-          {% csrf_token %}
-          <input type="hidden" name="" />
-
-        </form>
-
-        {% else %}
-        <a class="nav-item nav-link" href="{% url 'login' %}">LogIn</a>
-      {% endif %}
-      </div>
-    </div>
-	</div>
+      </form>
+                  </li>
+			{% else %}
+			<li class="nav-item pull-left">
+                <a class="nav-link" href="{% url 'login' %}">LogIn</a>
+            </li>
+        </ul>
+        {% endif %}
     </nav>
-</header>
 
-<div class="container">
 
-  {% for diary in diary.all %}
-  <div class="row pb-3 pt-3">
-  	<div class="col-6" onclick="window.location='{% url 'detail2' diary.id %}';" style="cursor: pointer;">
-  		<h1>{{ diary.title }}</h1>
-  		<p>{{ diary.summary }}</p>
-  	</div>
-  </div>
-  </form>
-  {% endfor %}
-</div>
+    <div class="card border-info" style="border-width: medium; margin-left: 20px; margin-right: 20px; margin-top: 10px">
+        <ul class="list-group list-group-flush">
+            {% for diary in diary.all %}
+            <li class="list-group-item"><b><i>{{ diary.title }}:</i></b><br>{{ diary.Addition }}</li>
+              {% endfor %}
+        </ul>
+    </div>
 
-<footer class="text-muted">
-  <div class="container">
-    <p class="float-right">
-      <a href="#">Back to top</a>
-    </p>
-    <p class="text-center">  ©️ Harsh Vartak {%now "Y"%}</p>
-  </div>
-</footer>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-  </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-  </script>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
 </body>
+
 </html>

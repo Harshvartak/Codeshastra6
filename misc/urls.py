@@ -16,5 +16,4 @@ urlpatterns = [
     path('diary/<int:pk>/comment',comment,name="add_comment_to_post"),
     path('task',Assign,name="assign"),
     path('display',display,name="display"),
-    path('chat', include('main.urls')),
 ]

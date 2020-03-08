@@ -26,3 +26,19 @@ class Comment(models.Model):
 
     def __str__(self):
         return str(self.psychiatrist.username)+str(self.post)
+
+
+class Task(models.Model):
+    head=models.CharField(max_length=100)
+    description=models.TextField()
+    is_complete=models.BooleanField(default=False)
+    creator=models.ForeignKey(User,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.head
+
+    def done(self):
+        self.is_complete=True
+
+    def summary(self):
+        return self.Addition[:40]

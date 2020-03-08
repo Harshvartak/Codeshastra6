@@ -50,6 +50,7 @@
       <div class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
         <a class="nav-item nav-link" href="{% url 'diary_all' %}" >Diary</a>
+        <a class="nav-item nav-link" href="{% url 'quiz' %}" >Quiz</a>
         <a class="nav-item nav-link" href="javascript:{document.getElementById('logout').submit()}">LogOut</a>
         <form id="logout" method="POST" action="{% url 'logout' %}">
         <a class='navbar-brand' >{{request.user.username}}</a>

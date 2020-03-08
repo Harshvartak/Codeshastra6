@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
+from django.conf.urls import url
 from .views import *
 from account.views import (
     logout_view,
@@ -13,4 +14,7 @@ urlpatterns = [
     path('diary',diary_all2,name="diary_all2"),
     path('diary/<int:product_id>',detail2,name='detail2'),
     path('diary/<int:pk>/comment',comment,name="add_comment_to_post"),
+    path('task',Assign,name="assign"),
+    path('display',display,name="display"),
+    path('chat', include('main.urls')),
 ]

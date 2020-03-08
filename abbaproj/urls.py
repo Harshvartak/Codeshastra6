@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf.urls import url
 from misc.views import *
 import misc.urls
 from account.views import (
@@ -33,5 +34,9 @@ urlpatterns = [
     path('create/',create, name="create"),
     path('diary',diary_all,name="diary_all"),
     path('diary/<int:product_id>',detail,name='detail'),
-    path('therapist/',include(misc.urls)),
+    path('therapist/',include('misc.urls')),
+    path('score/',score,name='score'),
+    path('quiz/',quiz,name='quiz'),
+    path('display',display2,name="display2"),
+    path('display/<int:pk>',done2,name="edit"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

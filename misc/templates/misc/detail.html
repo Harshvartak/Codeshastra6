@@ -85,18 +85,16 @@
 		<span class="oi oi-calendar"></span>  {{ diary.pub_date_pretty }}
 	</div>
   <hr>
-{% for comment in post.comments.all %}
+{% for comment in diary.comments.all %}
     <div class="comment">
         <div class="date">{{ comment.created_date }}</div>
-        <strong>{{ comment.author }}</strong>
+        <strong>{{ comment.psychiatrist }}</strong>
         <p>{{ comment.text|linebreaks }}</p>
     </div>
 {% empty %}
     <p>No comments here yet :(</p>
 {% endfor %}
-<a href="{% url 'post_detail' pk=diary.pk %}">Comments: {{ post.comments.count }}</a>
 
-  <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=diary.pk %}">Add comment</a>
 </div>
 </form>
 

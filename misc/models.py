@@ -22,7 +22,7 @@ class Diary(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Diary, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
-    psychiatrist=models.ForeignKey(Therapist,on_delete=models.CASCADE,related_name='psych')
+    psychiatrist=models.ForeignKey(User,on_delete=models.CASCADE,related_name='psych')
 
     def __str__(self):
-        return str(self.author)+str(self.post)
+        return str(self.psychiatrist.username)+str(self.post)

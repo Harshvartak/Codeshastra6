@@ -11,8 +11,6 @@
      <link rel = "icon" href ="{% static 'logo.png' %}"
         type = "logo/x-icon">
 
-
-
     <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -33,6 +31,9 @@
           font-size: 3.5rem;
         }
       }
+      .comment {
+    margin: 20px 0px 20px 20px;
+}
     </style>
     <!-- Custom styles for this template -->
     <link href="album.css" rel="stylesheet">
@@ -41,7 +42,7 @@
     <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
   	<div class="container">
-    <a class="navbar-brand" href="{% url 'home' %}">
+    <a class="navbar-brand" href="{% url 'home2' %}">
     <img src="{% static 'logo.png' %}" height=28 width=28 class="d-inline-block align-top" />
     Psych
     </a>
@@ -54,14 +55,11 @@
         <a class="nav-item nav-link" href="{% url 'diary_all' %}" >Diary</a>
         <a class="nav-item nav-link" href="javascript:{document.getElementById('logout').submit()}">LogOut</a>
         <form id="logout" method="POST" action="{% url 'logout' %}">
-
-        <a class='navbar-brand' >{{request.user.username}}</a>
-
+        <a class='navbar-brand' >Dr. {{request.user.username}}</a>
           {% csrf_token %}
           <input type="hidden" name="" />
 
         </form>
-
         {% else %}
         <a class="nav-item nav-link" href="{% url 'login' %}">LogIn</a>
       {% endif %}
@@ -73,25 +71,47 @@
 
 <div class="container">
 
-  {% for diary in diary.all %}
-  <div class="row pb-3 pt-3">
-  	<div class="col-6" onclick="window.location='{% url 'detail' diary.id %}';" style="cursor: pointer;">
-  		<h1>{{ diary.title }}</h1>
-  		<p>{{ diary.summary }}</p>
-  	</div>
+
+  <div class="row">
+	<div class="col-10">
+		<a href="{{ diary.url }}"><h1>{{ diary.title }}</h1></a>
+	</div>
+  <div class="row">
+    <p>
+      {{ diary.Addition }}
+    </p>
   </div>
-  </form>
-  {% endfor %}
-  <a class="btn btn-default" href="{% url 'create' %}">Add New Entry</a>
+</div>
+<br />
+<div class="row pt-3">
+	<div class="col-4 text-right">
+		<span class="oi oi-calendar"></span>  {{ diary.pub_date_pretty }}
+	</div>
+  <hr>
+{% for comment in diary.comments.all %}
+    <div class="comment">
+        <div class="date">{{ comment.created_date }}</div>
+        <br />
+        <strong>{{ comment.psychiatrist }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+        <br />
+    </div>
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
+
+  <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=diary.pk %}">Add comment</a>
+</div>
+</form>
+
 
 </div>
-
 <footer class="text-muted">
   <div class="container">
     <p class="float-right">
       <a href="#">Back to top</a>
     </p>
-    <p class="text-center">  ©️ Harsh Vartak {%now "Y"%}</p>
+    <p class="text-center">  ©️ Abba Ka Harmonium {%now "Y"%}</p>
   </div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
@@ -100,6 +120,5 @@
   </script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
   </script>
-
 </body>
 </html>

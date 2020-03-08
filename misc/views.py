@@ -9,6 +9,9 @@ def home(request):
     return render(request,'misc\home.html')
 
 
+def home2(request):
+    return render(request,'misc\home2.html')
+
 
 
 @patient_required
@@ -44,16 +47,27 @@ def diary_all(request):
 
 @therapist_required
 @login_required(login_url='/accounts/login')
-def comment(request,diary_id):
-    diary=get_object_or_404(Diary, pk=diary_id)
-    if request.method=='POST':
+def comment(request, pk):
+    post = get_object_or_404(Diary, pk=pk)
+    if request.method == "POST":
         form = CommentForm(request.POST)
-        if request.POST['test']:
+        if form.is_valid():
             comment = form.save(commit=False)
-            comment.author=request.user
-            comment.post=diary
+            comment.post = post
+            comment.psychiatrist=request.user
             comment.save()
-            return redirect('misc/detail', pk=diary.id)
-        else:
-            form=CommentForm()
-        return render(request, 'misc/add_comment_to_post.html',{'form':form} )
+            return redirect('detail2',product_id=pk)
+    else:
+        form = CommentForm()
+    return render(request, 'misc/add_comment_to_post.html', {'form': form})
+
+
+
+def detail2(request,product_id):
+	diary=get_object_or_404(Diary, pk=product_id)
+	return render(request,'misc/detail2.html',{'diary':diary})
+
+
+def diary_all2(request):
+    diary=Diary.objects.all()
+    return render(request,'misc/diary2.html',{'diary':diary})

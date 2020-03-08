@@ -6,8 +6,11 @@ from account.views import (
     login_view,
 )
 
-
 urlpatterns = [
-    path('',home),
-    path('diary/<int:product_id>/comment',add_comment_to_post,name="add_comment_to_post"),
+    path('',home2, name='home2'),
+    path('logout/', logout_view, name="logout"),
+    path('login/', login_view, name="login"),
+    path('diary',diary_all2,name="diary_all2"),
+    path('diary/<int:product_id>',detail2,name='detail2'),
+    path('diary/<int:pk>/comment',comment,name="add_comment_to_post"),
 ]
